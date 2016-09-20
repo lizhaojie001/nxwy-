@@ -1,3 +1,9 @@
-# My Awesome Book
+# 农事无忧2016-9-20
 
-This file file serves as your book's preface, a great place to describe your book's content and ideas.
+>农事无忧 --农业生产相关 产品周期开发3年\(iOS端半年\)
+
+* 2016年8月底开始着手项目
+  * 1.环信搭建中
+  
+
+
