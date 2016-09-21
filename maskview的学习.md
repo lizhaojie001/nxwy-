@@ -42,7 +42,7 @@ maskView就像是一个板子,上面有好多的空,你可以设置空的大小\
 ```objc
 
 
-self.view.backgroundColor = [UIColor blackColor];
+self.view.backgroundColor = [UIColor blackColor];![](/assets/4D912E19-EA91-4D9A-9570-7D4F1D10832A.png)
 
  UIImageView * iamgeview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"138050-5497241268ca44b4"]];
 
@@ -67,7 +67,6 @@ self.view.backgroundColor = [UIColor blackColor];
  [self.view addSubview:iamgeview1];
 
 ```
-
-![](/assets/8BA99909-A5E4-4D79-9AAB-250F44F1A2D8.png)
+![](/assets/4D912E19-EA91-4D9A-9570-7D4F1D10832A.png)
 
 未完待续...
