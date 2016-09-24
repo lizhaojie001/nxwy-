@@ -92,7 +92,7 @@ Core Foundation和Foundation中的有些数据类型只需要简单的强制类�
 文章参考:
 *  <http://geeklu.com/2013/03/core-text/>
 * http://blog.devtang.com/2015/06/27/using-coretext-2/ (唐巧博客)
-
+* http://xiangwangfeng.com/2014/03/06/iOS%E6%96%87%E5%AD%97%E6%8E%92%E7%89%88(CoreText)%E9%82%A3%E4%BA%9B%E4%BA%8B/
 
 
 
