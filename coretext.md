@@ -17,7 +17,9 @@ Quartz 能够直接处理字体（font）和字形（glyphs），将文字渲染
 
 > **Tips:**
 > 在面向对象编程领域中，单一功能原则（Single responsibility principle）规定每个类都应该有一个单一的功能，并且该功能应该由这个类完全封装起来。所有它的（这个类的）服务都应该严密的和该功能平行（功能平行，意味着没有依赖）。
-> 
+````````
+
+
 > ## Core Text知识准备
 
 #### 1.字符（Character）和字形（Glyphs）
@@ -64,4 +66,33 @@ Printing description of contextCTM: (CGAffineTransform) contextCTM = { a = 1 b =
 ```
 
 ####3.NSMutableAttributedString 和 CFMutableAttributedStringRef 
->Core Foundation和Foundation中的有些数据类型只需要简单的强制类型转换就可以互换使用，这类类型我们叫他们为Toll-Free Bridged Types<https://developer.apple.com/library/content/documentation/CoreFoundation/Conceptual/CFDesignConcepts/Articles/tollFreeBridgedTypes.html>。  CFMutableAttributedStringRef和NSMutableAttributedString就是其中的一对，Core Foundation的接口基本是C的接口，功能强大，但是使用起来没有Foundation中提供的Objc的接口简单好使，所以很多时候我们可以使用高层接口组织数据，然后将其传给低层函数接口使用。
+Core Foundation和Foundation中的有些数据类型只需要简单的强制类型转换就可以互换使用，这类类型我们叫他们为Toll-Free Bridged Types<https://developer.apple.com/library/content/documentation/CoreFoundation/Conceptual/CFDesignConcepts/Articles/tollFreeBridgedTypes.html>。  CFMutableAttributedStringRef和NSMutableAttributedString就是其中的一对，Core Foundation的接口基本是C的接口，功能强大，但是使用起来没有Foundation中提供的Objc的接口简单好使，所以很多时候我们可以使用高层接口组织数据，然后将其传给低层函数接口使用。
+
+
+------------
+
+>###二.Core Text对象模型 这节主要来看看Core Text绘制的一些细节问题了，首先是Core Text绘制的流程：
+
+![](http://ww1.sinaimg.cn/large/65cc0af7gw1e2uxd1gmhwj.jpg)
+
+![](http://ww4.sinaimg.cn/large/65cc0af7gw1e2uyn6r88oj.jpg)
+
+* **framesetter** framesetter对应的类型是 CTFramesetter，通过CFAttributedString进行初始化，它作为CTFrame对象的生产工厂，负责根据path生产对应的CTFrame
+
+* **CTFrame** CTFrame是可以通过CTFrameDraw函数直接绘制到context上的，当然你可以在绘制之前，操作CTFrame中的CTLine，进行一些参数的微调
+
+* **CTLine** 可以看做Core Text绘制中的一行的对象 通过它可以获得当前行的line ascent,line descent ,line leading,还可以获得Line下的所有Glyph Runs
+
+* **CTRun** 或者叫做 Glyph Run，是一组共享想相同attributes（属性）的字形的集合体
+
+>上面说了这么多对也没一个东西和图片绘制有关系，其实吧，Core Text本身并不支持图片绘制，图片的绘制你还得通过Core Graphics来进行。只是Core Text可以通过CTRun的设置为你的图片在文本绘制的过程中留出适当的空间。这个设置就使用到CTRunDelegate了，看这个名字大概就可以知道什么意思了，CTRunDelegate作为CTRun相关属性或操作扩展的一个入口，使得我们可以对CTRun做一些自定义的行为。为图片留位置的方法就是加入一个空白的CTRun，自定义其ascent，descent，width等参数，使得绘制文本的时候留下空白位置给相应的图片。然后图片在相应的空白位置上使用Core Graphics接口进行绘制。  使用CTRunDelegateCreate可以创建一个CTRunDelegate，它接收两个参数，一个是callbacks结构体，一个是所有callback调用的时候需要传入的对象。 callbacks的结构体为CTRunDelegateCallbacks，主要是包含一些回调函数，比如有返回当前run的ascent，descent，width这些值的回调函数，至于函数中如何鉴别当前是哪个run，可以在CTRunDelegateCreate的第二个参数来达到目的，因为CTRunDelegateCreate的第二个参数会作为每一个回调调用时的入参。
+
+
+
+文章参考:
+*  <http://geeklu.com/2013/03/core-text/>
+* http://blog.devtang.com/2015/06/27/using-coretext-2/ (唐巧博客)
+
+
+
+
